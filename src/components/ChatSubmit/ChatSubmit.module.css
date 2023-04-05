@@ -1,0 +1,16 @@
+.formSubmit {
+    width: 100%;
+    display: flex;
+    float:inline-end;
+    position: sticky;
+    background-color: rgb(255, 255, 255);
+    bottom: 0;
+}
+
+.buttonSubmit {
+    display: flex;
+    float: right;
+    font-size: 0.8em;
+    width: 100%;
+    height: 100%;
+}
