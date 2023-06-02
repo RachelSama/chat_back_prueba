@@ -24,11 +24,9 @@ const Page: React.FC<PageProps> = ({ socket }) => {
         </IonToolbar>
       </IonHeader>
 
-      {/* <IonContent fullscreen> */}
         <HeaderChat roomName={roomName} />
         <ExploreContainer roomName={roomName} socket={socket} />
         <ChatSubmit roomName={roomName} socket={socket} />
-      {/* </IonContent> */}
     </IonPage>
   );
 };

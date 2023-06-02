@@ -69,7 +69,7 @@ const ExploreContainer: React.FC<ContainerProps> = ({ roomName, socket }) => {
             })}
           </div>
         </IonGrid>
-          <div ref={lastMessageRef} />
+        <div ref={lastMessageRef} />
       </IonContent>
     </IonCard>
   );
