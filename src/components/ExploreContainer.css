@@ -1,5 +1,26 @@
-.container {
-  text-align: center;
-  background-color: rgba(202, 35, 35, 0.089);
+ion-card {
+  box-shadow: none !important;
+  background-color: rgba(255, 255, 255, 0);
+  margin: 0;
   height: 100%;
+}
+
+.messageRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.messageCol {
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 15px;
+  max-width: 60%;
+}
+
+.message__timestamp {
+  font-size: 10px;
+  margin-bottom: -2%;
+  color: rgb(0, 0, 0);
+  text-align: right;
 }

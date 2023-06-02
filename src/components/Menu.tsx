@@ -9,14 +9,11 @@ import {
   IonMenuToggle,
   IonNote,
 } from '@ionic/react';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { mailOutline, mailSharp } from 'ionicons/icons';
 import './Menu.css';
-
-const BASE_URL = process.env.BASE_URL;
-const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
-const USER_ID = process.env.USER_ID;
+import { Socket } from 'socket.io-client';
+import { useEffect, useState } from 'react';
 
 interface AppPage {
   url: string;
@@ -25,30 +22,64 @@ interface AppPage {
   title: string;
 }
 
-const appPages: AppPage[] = [
-  {
-    title: 'Usuario 1',
-    url: '/page/usuario1',
-    iosIcon: mailOutline,
-    mdIcon: mailSharp
-  },
-  {
-    title: 'Usuario 1',
-    url: '/page/usuario2',
-    iosIcon: mailOutline,
-    mdIcon: mailSharp
-  }
-];
+interface MenuProps {
+  socket: Socket;
+}
 
-const Menu: React.FC = () => {
+const Menu: React.FC<MenuProps> = ({ socket }) => {
   const location = useLocation();
+  const history = useHistory();
+  const [rooms, setRooms] = useState<any[]>([]);
+  const [broadcastMessage, setBroadcastMessage] = useState("");
+  
+  const appPages: AppPage[] = rooms.map((roomName, index) => ({
+    title: roomName,
+    url: `/page/${roomName}`,
+    iosIcon: mailOutline,
+    mdIcon: mailSharp
+  }));
+
+
+  useEffect(() => {
+    socket.on("roomListResponse", data => setRooms(data));
+    socket.on("newRoom", data => setRooms([...rooms, data]));
+  }, [socket, rooms]);
+
+  const handleBroadcastMessage = () => {
+    if (broadcastMessage.trim()) {
+      socket.emit("broadcastMessage", {
+        text: broadcastMessage,
+        token: "1234",
+        name: "Unobike",
+        id: `${socket.id}${Math.random()}`,
+        socketID: socket.id,
+      });
+      setBroadcastMessage("");
+    }
+  };
+
+  const handleInboxClick = () => {
+    history.push("/");
+  };
 
   return (
     <IonMenu contentId="main" type="overlay">
       <IonContent>
         <IonList id="inbox-list">
-          <IonListHeader>Inbox</IonListHeader>
+        <IonListHeader onClick={handleInboxClick}>Inbox</IonListHeader>
           <IonNote>Conversaciones</IonNote>
+          <div className="broadcast__message">
+          <input
+            type="text"
+            placeholder="Escribe un mensaje de difusión"
+            value={broadcastMessage}
+            onChange={(e) => setBroadcastMessage(e.target.value)}
+            className="broadcast__input"
+          />
+          <button onClick={handleBroadcastMessage} className="broadcast__button">
+            Enviar a todas las salas
+          </button>
+        </div>
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>

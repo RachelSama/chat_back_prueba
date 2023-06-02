@@ -17,4 +17,14 @@ h2 {
     color: white;
 }
 
+.leaveChat__btn {
+  padding: 10px;
+  width: 150px;
+  border: none;
+  outline: none;
+  background-color: #ffeae4;
+  cursor: pointer;
+  color: #640000;
+}
+
 
