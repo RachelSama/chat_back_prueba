@@ -17,8 +17,10 @@ const ChatSubmit: React.FC<ChatSubmitProps> = ({ roomName, socket }) => {
     };
 
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        console.log("enviando un mensaje ...")
         event.preventDefault();
-        if (message.trim() && localStorage.getItem("userName")) {
+        if (message.trim()) {
+            console.log("hay mensaje ...")
             socket.emit("message",
                 {
                     text: message,

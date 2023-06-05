@@ -49,7 +49,7 @@ const Menu: React.FC<MenuProps> = ({ socket }) => {
     if (broadcastMessage.trim()) {
       socket.emit("broadcastMessage", {
         text: broadcastMessage,
-        token: "1234",
+        uuid: "1234",
         name: "Unobike",
         id: `${socket.id}${Math.random()}`,
         socketID: socket.id,
@@ -69,8 +69,8 @@ const Menu: React.FC<MenuProps> = ({ socket }) => {
         <IonListHeader onClick={handleInboxClick}>Inbox</IonListHeader>
           <IonNote>Conversaciones</IonNote>
           <div className="broadcast__message">
-          <input
-            type="text"
+          <textarea
+            rows={4}
             placeholder="Escribe un mensaje de difusión"
             value={broadcastMessage}
             onChange={(e) => setBroadcastMessage(e.target.value)}

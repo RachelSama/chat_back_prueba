@@ -120,7 +120,6 @@ ion-item.selected {
 } 
 
 .broadcast__message {
-  align-items: center;
   margin-top: 20px;
   margin-bottom: 20px;
   display: flex;

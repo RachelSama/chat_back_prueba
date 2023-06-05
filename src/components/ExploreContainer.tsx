@@ -1,7 +1,13 @@
 import { Socket } from 'socket.io-client';
 import './ExploreContainer.css';
 import { useEffect, useRef, useState } from 'react';
-import { IonCard, IonContent, IonGrid, IonRow } from '@ionic/react';
+import { IonCard, IonCol, IonContent, IonGrid, IonRow } from '@ionic/react';
+
+interface Message {
+  user: string;
+  text: string;
+  timestamp: string;
+}
 
 interface ContainerProps {
   roomName: string;
@@ -9,13 +15,15 @@ interface ContainerProps {
 }
 
 const ExploreContainer: React.FC<ContainerProps> = ({ roomName, socket }) => {
+  const [messages, setMessages] = useState<Message[]>([]);
   const lastMessageRef = useRef<HTMLDivElement>(null);
-  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     socket.emit('getRoomData', roomName);
-    socket.on("roomData", data => setMessages(data));
-  }, [roomName, messages, socket]);
+    socket.on("roomData", (data: Message[]) => {
+      setMessages(data)
+    });
+  }, [roomName, socket, messages]);
 
   useEffect(() => {
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -34,36 +42,48 @@ const ExploreContainer: React.FC<ContainerProps> = ({ roomName, socket }) => {
         <IonGrid>
           <div className='messageContainer'>
             {messages.map((message, index) => {
-              const parsedMessage = JSON.parse(message);
-              const formattedDateTime = formatDateTime(parsedMessage.timestamp);
+              const formattedDateTime = formatDateTime(message.timestamp);
 
-              return parsedMessage.user !== 'Unobike' ? (
-                <IonRow className='messageRow' key={index} style={{ flexDirection: 'row' }}>
-                  <p className='messageCol'>{parsedMessage.user}</p>
-                  <div
-                    className='messageCol'
-                    style={{
-                      backgroundColor: '#ac3939',
-                      color: 'white',
-                    }}
-                  >
-                    <p>{parsedMessage.text}</p>
-                    <p className='message__timestamp'>{formattedDateTime}</p>
-                  </div>
+              return message.user !== 'Unobike' ? (
+                <IonRow className='messageRow' key={index}>
+                  <IonCol>
+                    <IonRow style={{ flexDirection: 'row' }}>
+                      <div className='messageCol'>{message.user}</div>
+                    </IonRow>
+                    <IonRow style={{ flexDirection: 'row' }}>
+                      <div
+                        className='messageCol'
+                        style={{
+                          backgroundColor: '#ac3939',
+                          color: 'white',
+                        }}
+                      >
+                        <p>{message.text}</p>
+                        <p className='message__timestamp'>{formattedDateTime}</p>
+                      </div>
+
+                    </IonRow>
+                  </IonCol>
                 </IonRow>
               ) : (
-                <IonRow className='messageRow' key={index} style={{ flexDirection: 'row-reverse' }}>
-                  <p className='messageCol'>Tu</p>
-                  <div
-                    className='messageCol'
-                    style={{
-                      backgroundColor: '#c5c5c5',
-                      color: 'black',
-                    }}
-                  >
-                    <p>{parsedMessage.text}</p>
-                    <p className='message__timestamp'>{formattedDateTime}</p>
-                  </div>
+                <IonRow className='messageRow' key={index}>
+                  <IonCol>
+                    <IonRow style={{ flexDirection: 'row-reverse' }}>
+                      <div className='messageCol'>Tú</div>
+                    </IonRow>
+                    <IonRow style={{ flexDirection: 'row-reverse' }}>
+                      <div
+                        className='messageCol'
+                        style={{
+                          backgroundColor: '#c5c5c5',
+                          color: 'black',
+                        }}
+                      >
+                        <p>{message.text}</p>
+                        <p className='message__timestamp'>{formattedDateTime}</p>
+                      </div>
+                    </IonRow>
+                  </IonCol>
                 </IonRow>
               );
             })}

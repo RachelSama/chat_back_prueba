@@ -31,7 +31,7 @@ const App: React.FC = () => {
 
   const socket = socketIO("http://localhost:4000", {
     auth: {
-      token: "1234"
+      uuid: "1234"
     }
   })
   return (
