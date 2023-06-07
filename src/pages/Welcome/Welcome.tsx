@@ -2,6 +2,14 @@ import React from 'react';
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './Welcome.css';
 
+/**
+ * Este es un componente funcional de React que muestra un mensaje de bienvenida para una aplicación de
+ * chat.
+ * @returns Se devuelve el componente `ChatWelcome`, que es un componente funcional que representa un
+ * componente `IonPage` del marco Ionic. El componente `IonPage` contiene un componente `IonHeader` con
+ * un título y un botón de menú, y un componente `IonContent` con un mensaje de bienvenida para el
+ * chat. El componente se exporta como la exportación predeterminada del módulo.
+ */
 const ChatWelcome: React.FC = () => {
     return (
         <IonPage>

@@ -15,6 +15,16 @@ import './Menu.css';
 import { Socket } from 'socket.io-client';
 import { useEffect, useState } from 'react';
 
+/**
+ * Este es un componente de TypeScript React que muestra un menú con una lista de salas y una entrada
+ * de mensaje de difusión, y permite al usuario navegar a diferentes páginas.
+ * @param  - - `AppPage`: una interfaz que define las propiedades de la página de una aplicación,
+ * incluida su URL, los íconos de iOS y Android y el título.
+ * @returns Un componente funcional de React llamado `Menu` que representa un componente `IonMenu` con
+ * una lista de componentes `IonItem` basada en la matriz `appPages`. También incluye un `área de
+ * texto` y un `botón` para transmitir mensajes a todas las habitaciones, y utiliza ganchos
+ * `useLocation` y `useHistory` de `react-router-dom`. El componente recibe una prop `socket` que
+ */
 interface AppPage {
   url: string;
   iosIcon: string;
@@ -32,6 +42,14 @@ const Menu: React.FC<MenuProps> = ({ socket }) => {
   const [rooms, setRooms] = useState<any[]>([]);
   const [broadcastMessage, setBroadcastMessage] = useState("");
   
+  /**
+   * `const appPages: AppPage[] = rooms.map((roomName, index) => ({...}))` está creando una matriz de
+   * objetos `AppPage` basada en la matriz `rooms`. Para cada elemento en la matriz `rooms`, crea un
+   * nuevo objeto `AppPage` con una propiedad `title` establecida en el nombre de la habitación, una
+   * propiedad `url` establecida en `/page/` y `iosIcon Las propiedades ` y `mdIcon` se
+   * establecen en `mailOutline` y `mailSharp`, respectivamente. La matriz resultante de objetos
+   * `AppPage` se almacena en la constante `appPages`.
+   */
   const appPages: AppPage[] = rooms.map((roomName, index) => ({
     title: roomName,
     url: `/page/${roomName}`,
@@ -45,6 +63,10 @@ const Menu: React.FC<MenuProps> = ({ socket }) => {
     socket.on("newRoom", data => setRooms([...rooms, data]));
   }, [socket, rooms]);
 
+  /**
+   * Esta función emite un mensaje de difusión con datos específicos a través de una conexión de socket
+   * y restablece el estado del mensaje de difusión.
+   */
   const handleBroadcastMessage = () => {
     if (broadcastMessage.trim()) {
       socket.emit("broadcastMessage", {
@@ -58,6 +80,9 @@ const Menu: React.FC<MenuProps> = ({ socket }) => {
     }
   };
 
+  /**
+   * La función redirige al usuario a la página de inicio cuando se hace clic en la bandeja de entrada.
+   */
   const handleInboxClick = () => {
     history.push("/");
   };

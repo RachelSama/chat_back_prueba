@@ -14,6 +14,14 @@ interface ContainerProps {
   socket: Socket;
 }
 
+/**
+ * La función ExploreContainer es un componente de React que muestra una sala de chat con mensajes y
+ * marcas de tiempo, y formatea las marcas de tiempo de una manera específica.
+ * @param {string} timestamp - El parámetro `timestamp` es una cadena que representa una fecha y hora
+ * en un formato específico, como "2021-10-15T14:30:00Z". Se usa como entrada a la función
+ * `formatDateTime` para formatear la fecha y la hora de una manera específica.
+ * @returns Se devuelve el componente `ExploreContainer`.
+ */
 const ExploreContainer: React.FC<ContainerProps> = ({ roomName, socket }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const lastMessageRef = useRef<HTMLDivElement>(null);
@@ -29,6 +37,15 @@ const ExploreContainer: React.FC<ContainerProps> = ({ roomName, socket }) => {
     lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages.length]);
 
+  /**
+   * La función formatea una marca de tiempo determinada en una cadena con la fecha y la hora en un
+   * formato específico.
+   * @param {string} timestamp - El parámetro `timestamp` es una cadena que representa una fecha y hora
+   * en un formato específico, como "2021-10-15T14:30:00Z".
+   * @returns La función `formatDateTime` devuelve una cadena de fecha y hora formateada en el formato
+   * "DD/MM/YYYY HH:MM". Se espera que el parámetro de entrada `timestamp` sea una cadena que
+   * represente una fecha y hora válidas.
+   */
   function formatDateTime(timestamp: string) {
     const date = new Date(timestamp);
     const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;

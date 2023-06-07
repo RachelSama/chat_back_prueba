@@ -27,8 +27,20 @@ import Menu from './components/Menu/Menu';
 
 setupIonicReact();
 
+/**
+ * Este código define el componente principal de la aplicación, que se llama `App`. Es un componente
+ * funcional que devuelve código JSX, el cual define la estructura y el comportamiento de la
+ * aplicación.
+ */
+
 const App: React.FC = () => {
 
+  /**
+   * Este código está creando una conexión de socket a un servidor en la URL "http://localhost:4000"
+   * usando la biblioteca socket.io-client. También pasa un objeto de autenticación con una propiedad
+   * UUID establecida en "1234" al servidor. El objeto de socket resultante se pasa luego como
+   * accesorio a los componentes Menú y Página.
+   */
   const socket = socketIO("http://localhost:4000", {
     auth: {
       uuid: "1234"
