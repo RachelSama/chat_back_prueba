@@ -1,7 +1,7 @@
 import { IonButtons, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { useParams } from 'react-router';
 import ChatSubmit from '../../components/ChatSubmit/ChatSubmit';
-import ExploreContainer from '../../components/ExploreContainer';
+import ExploreContainer from '../../components/ExploreContainer/ExploreContainer';
 import HeaderChat from '../../components/HeaderChat/HeaderChat';
 import './Page.css';
 import { Socket } from 'socket.io-client';
